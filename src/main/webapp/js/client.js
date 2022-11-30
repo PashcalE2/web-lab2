@@ -18,13 +18,13 @@ let r_value = null;
 let points_data = [];
 
 function init() {
-  y_textbox = document.getElementById("Y");
+    y_textbox = document.getElementById("Y");
 
-  x_hidden = document.getElementById("x-hidden");
-  y_hidden = document.getElementById("y-hidden");
-  r_hidden = document.getElementById("r-hidden");
+    x_hidden = document.getElementById("x-hidden");
+    y_hidden = document.getElementById("y-hidden");
+    r_hidden = document.getElementById("r-hidden");
 
-  initCanvas(document.getElementById("areas"));
+    initCanvas(document.getElementById("areas"));
 }
 
 function isWrongNumber(str_num) {
@@ -48,44 +48,44 @@ function isWrongRInput() {
   return last_radius_button === null;
 }
 
-function setX(value) {
-  x_hidden.value = value;
-  x_value = parseFloat(value);
+function setHiddenX(str_value = "") {
+  x_hidden.value = str_value;
+  x_value = parseFloat(str_value);
 }
 
 function onClickX(element) {
   if (last_x_checkbox !== null && last_x_checkbox !== element) {
     last_x_checkbox.checked = false;
-    setX("")
+    setHiddenX();
   }
 
   last_x_checkbox = element;
 
   if (element.checked) {
-    setX(element.value);
+    setHiddenX(element.value);
   }
 }
 
-function setY(value) {
-  y_hidden.value = value;
-  y_value = parseFloat(value);
+function setHiddenY(str_value = "") {
+  y_hidden.value = str_value;
+  y_value = parseFloat(str_value);
 }
 
 function onYInput() {
   if (y_textbox.value.length && isWrongYInput()) {
     y_textbox.className = "wrong-field";
-    setY("")
+    setHiddenY();
   } else if (y_textbox.value.length) {
     y_textbox.className = "correct-field";
-    setY(y_textbox.value);
+    setHiddenY(y_textbox.value);
   } else {
     y_textbox.className = "empty-field";
   }
 }
 
-function setR(value) {
-  r_hidden.value = value;
-  r_value = parseFloat(value);
+function setHiddenR(str_value = "") {
+  r_hidden.value = str_value;
+  r_value = parseFloat(str_value);
 }
 
 function onClickRadius(element) {
@@ -95,7 +95,7 @@ function onClickRadius(element) {
 
   element.className = "radius-checked";
   last_radius_button = element;
-  setR(element.value);
+  setHiddenR(element.value);
   updateCanvas(r_value);
 }
 
@@ -111,14 +111,19 @@ function listHasNull(list) {
 
 function onSubmitForm() {
   event.preventDefault();
+  let send_button = $("#send")
+
+  if (send_button.getAttribute("disabled") === true) {
+    return;
+  }
 
   let isError = listHasNull([x_value, y_value, r_value]) && (isWrongXInput() || isWrongYInput() || isWrongRInput());
 
   if (isError) {
-	  return isError;
+    return isError;
   }
 
-  $("#send").attr("disabled", true);
+  send_button.attr("disabled", true);
 
   let data_serialize = $("#dataform").serialize() + "&timezone=" + new Date().getTimezoneOffset();
   console.log(data_serialize);
@@ -135,6 +140,11 @@ function onSubmitForm() {
       $("#result-block").html(data);
       loadPoints();
       updateCanvas(r_value);
+
+      // redo
+      setHiddenX();
+      setHiddenY();
+      setHiddenR();
     },
     error: function (error) {
       console.log(error);

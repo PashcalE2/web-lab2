@@ -228,8 +228,8 @@ function onClickAreas() {
         let x = k * (pos.x - canvas_half_width);
         let y = k * (canvas_half_height - pos.y);
 
-        setX(x);
-        setY(y);
+        setHiddenX(x);
+        setHiddenY(y);
 
         onSubmitForm();
     }
