@@ -32,7 +32,7 @@ function isWrongNumber(str_num) {
 }
 
 function isWrongXInput() {
-  return last_x_checkbox === null || !last_x_checkbox.checked || x_value === null;
+  return last_x_checkbox === null || !last_x_checkbox.checked;
 }
 
 function isWrongYInput() {
