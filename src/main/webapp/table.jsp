@@ -10,7 +10,8 @@
         <th>Значение X</th>
         <th>Значение Y</th>
         <th>Значение R</th>
-        <th>Ответ</th>
+        <th>ОДЗ соблюдена</th>
+        <th>Попадание</th>
         <th>Отправлено в</th>
         <th>Время работы скрипта, с</th>
     </tr>
@@ -26,12 +27,10 @@
             <td class="x"><%=point.getX() %></td>
             <td class="y"><%=point.getY() %></td>
             <td class="r"><%=point.getR()%></td>
+            <td class="valid"><%=point.isValid() ? "Да" : "Нет" %></td>
             <td class="hit"><%=point.isHit() ? "Да" : "Нет" %></td>
             <td class="sent-in"><%=bean.getSendingTime()%></td>
             <td class="exec-time"><%=bean.getExecutionTime()%></td>
-            <!--
-            <td><button onclick='parent.markPoint(<%=point.getX() %>, <%=point.getY() %>, <%=point.getR() %>, <%=point.isHit() ? "lime" : "red" %>)'>+</button></td>
-            -->
         </tr>
         <%}%>
     </tbody>

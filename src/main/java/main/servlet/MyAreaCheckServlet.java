@@ -61,11 +61,8 @@ public class MyAreaCheckServlet extends HttpServlet {
             double y = Double.parseDouble(request.getParameter("y-input").trim());
             double r = Double.parseDouble(request.getParameter("r-input"));
 
-            if (!isValid(x, y, r)) {
-                throw new InvalidInputDataException();
-            }
-
             AreaPoint p = new AreaPoint(x, y, r);
+            p.setValid(isValid(x, y, r));
             p.setHit(checkArea(x, y, r));
 
             OffsetDateTime currentTimeObject = OffsetDateTime.now(ZoneOffset.UTC);

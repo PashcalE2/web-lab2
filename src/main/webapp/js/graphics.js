@@ -32,11 +32,12 @@ function loadPoints() {
         let x = parseFloat($(element).find(".x").text());
         let y = parseFloat($(element).find(".y").text());
         let r = parseFloat($(element).find(".r").text());
+        let valid = $(element).find(".valid").text().trim() === "Да";
         let hit = $(element).find(".hit").text().trim() === "Да";
 
         //console.log(`${x}, ${y}, ${r}, ${hit}`);
 
-        points_data[index]={x: x, y: y, r: r, hit: hit};
+        points_data[index]={x: x, y: y, r: r, valid: valid, hit: hit};
     });
 }
 
@@ -182,16 +183,34 @@ function drawUnknown(x, y) {
     ctx.closePath();
 }
 
-function drawPoint(x, y, hit = false, relevant = true) {
+function drawWrongInput(x, y) {
+    ctx.fillStyle = 'rgb(255, 127, 0)';
 
-    if (relevant) {
-        if (hit) {
-            drawHit(x, y);
+    ctx.beginPath();
+
+    ctx.moveTo(x, y - 4);
+    ctx.lineTo(x - 3, y + 2);
+    ctx.lineTo(x + 3, y + 2);
+    ctx.lineTo(x, y - 4);
+    ctx.fill();
+
+    ctx.closePath();
+}
+
+function drawPoint(x, y, hit = false, relevant = true, valid = true) {
+
+    if (valid) {
+        if (relevant) {
+            if (hit) {
+                drawHit(x, y);
+            } else {
+                drawMiss(x, y);
+            }
         } else {
-            drawMiss(x, y);
+            drawUnknown(x, y);
         }
     } else {
-        drawUnknown(x, y);
+        drawWrongInput(x, y);
     }
 }
 
@@ -205,7 +224,7 @@ function drawPoints(radius_value = null) {
         let relevant = Math.abs(point.r - radius_value) < 0.001;
 
         //console.log(`${point.x}, ${point.y}, ${point.hit}, ${radius_value}`);
-        drawPoint(canvas_half_width + point.x * radius_px / radius_value, canvas_half_height - point.y * radius_px / radius_value, point.hit, relevant);
+        drawPoint(canvas_half_width + point.x * radius_px / radius_value, canvas_half_height - point.y * radius_px / radius_value, point.hit, relevant, point.valid);
     }
 }
 

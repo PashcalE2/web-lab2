@@ -18,11 +18,11 @@ public class MyControllerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String xString = request.getParameter("x-input");
         String yString = request.getParameter("y-input");
-        String RString = request.getParameter("r-input");
+        String rString = request.getParameter("r-input");
         String clear = request.getParameter("clear");
 
         // просим проверить точку
-        if (xString != null && yString != null && RString != null) {
+        if (xString != null && yString != null && rString != null) {
             request.getServletContext().getRequestDispatcher("/check").forward(request, response);
         }
         // просим очистить результаты
